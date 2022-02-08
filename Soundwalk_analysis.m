@@ -190,5 +190,5 @@ function a_mean = aritmetic_mean(group, qs)
     end
 end
 
-
+%Hello world
 
