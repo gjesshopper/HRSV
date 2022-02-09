@@ -116,7 +116,9 @@ letters = ['a', 'b','c', 'd', 'e', 'f', 'g', 'h'];
 
 %aritmetic means
 for i = 1:length(letters);
-    data = a_mean_all_groups(groups,i+3);
+    my_field = strcat('part_1_arithmetic_mean_Q_4', letters(i));
+    aritm_means_Q_4.(my_field) = a_mean_all_groups(groups,i+3);
+    data = aritm_means_Q_4.(my_field);
     filename = strcat('part_1_arithmetic_mean_Q_4', letters(i), '.mat');
     save(filename, 'data');
 end
@@ -124,20 +126,38 @@ end
 
 %confidense intervalls
 for i = 1:length(letters);
-    data = conf_int(groups.group_1A_1B_2A_2B, i+3, 0.05);    
+    my_field = strcat('part_1_confidence_intervals_Q_4', letters(i));
+    conf_ints_Q_4.(my_field) = conf_int(groups.group_1A_1B_2A_2B, i+3, 0.05);
+    data = conf_ints_Q_4.(my_field);
     filename = strcat('part_1_confidence_intervals_Q_4', letters(i), '.mat');
-    save(filename, 'data'); 
-end
-
-pause(1);
-
-%load data
-for i = 1:length(letters);
-    load(strcat('part_1_arithmetic_mean_Q_4', letters(i)));
-    load(strcat('part_1_confidence_intervals_Q_4', letters(i)));
+    save(filename, 'data');
 end
 
 
+%% PROBLEM 5/6
+p = aritm_means_Q_4.part_1_arithmetic_mean_Q_4a;
+ch = aritm_means_Q_4.part_1_arithmetic_mean_Q_4b;
+v = aritm_means_Q_4.part_1_arithmetic_mean_Q_4c;
+u = aritm_means_Q_4.part_1_arithmetic_mean_Q_4d;
+ca = aritm_means_Q_4.part_1_arithmetic_mean_Q_4e;
+a = aritm_means_Q_4.part_1_arithmetic_mean_Q_4f;
+e = aritm_means_Q_4.part_1_arithmetic_mean_Q_4g;
+m = aritm_means_Q_4.part_1_arithmetic_mean_Q_4h;
+
+part_1_pleasantness = pleasantness(p, a, ca, ch, v, m);
+save('part_1_pleasantness.mat', 'part_1_pleasantness');
+
+part_1_eventfulness = eventfulness(e, u, ca, ch, v, m);
+save('part_1_eventfulness.mat', 'part_1_eventfulness');
+
+
+%% PROBLEM 7
+figure(4);
+scatter(part_1_pleasantness, part_1_eventfulness);
+legend('1', '2', '3', '4', '5', '6', '7', '8');
+grid on;
+xlim([-1 1]);
+ylim([-1 1]);
 
 
 
@@ -147,10 +167,14 @@ end
 
 
 
-function plsntns = pleasantness(p, a, ca, ch, v, m);
-
+function P = pleasantness(p, a, ca, ch, v, m);
+    P = ((sqrt(2)*(p-a))+(ca-ch)+(v-m))/(4+sqrt(8));
 end
 
+function E = eventfulness(e, u, ca, ch, v, m);
+    E = ((sqrt(2)*(e-u))-(ca-ch)+(v-m))/(4+sqrt(8));
+end 
+ 
 function CI = conf_int(group, qs, p);
     %returns the confidence intervall for all locations
     
