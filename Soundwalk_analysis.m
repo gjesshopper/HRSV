@@ -154,10 +154,134 @@ save('part_1_eventfulness.mat', 'part_1_eventfulness');
 %% PROBLEM 7
 figure(4);
 scatter(part_1_pleasantness, part_1_eventfulness);
-legend('1', '2', '3', '4', '5', '6', '7', '8');
+legend('Location 1', 'Location 2', 'Location 3', 'Location 4', 'Location 5', 'Location 6', 'Location 7', 'Location 8');
 grid on;
+xlabel('Pleasantness');
+ylabel('Eventfulness');
 xlim([-1 1]);
 ylim([-1 1]);
+
+
+
+%% COMPARISON TO PREVIOUS YEARS
+
+load('hrsv22PreviousSoundwalkData.mat');
+clc
+
+years17_22 = cat(3, previousYears(:).Q1234AM);
+CI_years17_22 = cat(3, previousYears(:).Q1234CI);
+
+
+
+markers = ['o','d', 'p', '>', '^', '<', 's'];
+xlocations = {'Central Station', 'Trädgårdsföreningen', 'Stora Teatern', 'Stora Nygatan', 'Kungsportplatsen', 'Domkyrkan', 'Brunnsparken', 'Nordstan'};
+
+%Question 1
+figure(5);
+for i = 1:7;
+    if i == 6;
+        err = abs(part_1_arithmetic_mean_Q_1(7,:) - part_1_confidence_intervals_Q_1(1,:));
+        er = errorbar([0.6+i*0.1:1:7.6+i*0.1], part_1_arithmetic_mean_Q_1(7,:), err, err);
+        er.Color = [0 0 0];                            
+        er.LineStyle = 'none';
+        hold on;
+        h(i) = scatter([0.6+i*0.1:1:7.6+i*0.1], part_1_arithmetic_mean_Q_1(7,:), 75, markers(6), 'filled');
+    elseif i == 7;
+        h(i) = scatter([0.6+i*0.1:1:7.6+i*0.1], years17_22(:,1,6), 75, markers(i), 'filled');
+        hold on;
+    else;
+        err = abs(years17_22(:,1,i) - CI_years17_22(:,1,2*i));
+        er = errorbar([0.6+i*0.1:1:7.6+i*0.1], years17_22(:,1,i), err, err);
+        er.Color = [0 0 0];                            
+        er.LineStyle = 'none';
+        hold on;
+        h(i) = scatter([0.6+i*0.1:1:7.6+i*0.1], years17_22(:,1,i), 75, markers(i), 'filled');
+    end;
+    hold on;
+end
+hold off;
+xlim([0 9]);
+ylim([0 4]);
+xticks(1:1:8);
+xticklabels(xlocations);
+grid on;
+ylabel('Perceived loudness [0-4]');
+legend(h, '2017', '2018', '2019', '2020', '2021', '2022', 'All years');
+title('Answers to question 1: How loud is it here? - year 2017-2022');
+ax = gca; 
+ax.FontSize = 16;
+
+
+%Question 2
+figure(6);
+for i = 1:7;
+    if i == 6;
+        err = abs(part_1_arithmetic_mean_Q_2(7,:) - part_1_confidence_intervals_Q_2(1,:));
+        er = errorbar([0.6+i*0.1:1:7.6+i*0.1], part_1_arithmetic_mean_Q_2(7,:), err, err);
+        er.Color = [0 0 0];                            
+        er.LineStyle = 'none';
+        hold on;
+        h(i) = scatter([0.6+i*0.1:1:7.6+i*0.1], part_1_arithmetic_mean_Q_2(7,:), 75, markers(6), 'filled');
+    elseif i == 7;
+        h(i) = scatter([0.6+i*0.1:1:7.6+i*0.1], years17_22(:,2,6), 75, markers(i), 'filled');
+        hold on;
+    else;
+        err = abs(years17_22(:,2,i) - CI_years17_22(:,2,2*i));
+        er = errorbar([0.6+i*0.1:1:7.6+i*0.1], years17_22(:,2,i), err, err);
+        er.Color = [0 0 0];                            
+        er.LineStyle = 'none';
+        hold on;
+        h(i) = scatter([0.6+i*0.1:1:7.6+i*0.1], years17_22(:,2,i), 75, markers(i), 'filled');
+    end;
+    hold on;
+end
+hold off;
+xlim([0 9]);
+ylim([0 4]);
+xticks(1:1:8);
+xticklabels(xlocations);
+grid on;
+ylabel('How appropriate is the sound to the surrounding [0-4]');
+legend(h, '2017', '2018', '2019', '2020', '2021', '2022', 'All years');
+title('Answers to question 2: How appropriate is the sound to the surrounding? - year 2017-2022');
+ax = gca; 
+ax.FontSize = 16;
+
+
+%Question 3
+figure(6);
+for i = 1:7;
+    if i == 6;
+        err = abs(part_1_arithmetic_mean_Q_3(7,:) - part_1_confidence_intervals_Q_3(1,:));
+        er = errorbar([0.6+i*0.1:1:7.6+i*0.1], part_1_arithmetic_mean_Q_3(7,:), err, err);
+        er.Color = [0 0 0];                            
+        er.LineStyle = 'none';
+        hold on;
+        h(i) = scatter([0.6+i*0.1:1:7.6+i*0.1], part_1_arithmetic_mean_Q_3(7,:), 75, markers(6), 'filled');
+    elseif i == 7;
+        h(i) = scatter([0.6+i*0.1:1:7.6+i*0.1], years17_22(:,3,6), 75, markers(i), 'filled');
+        hold on;
+    else;
+        err = abs(years17_22(:,3,i) - CI_years17_22(:,3,2*i));
+        er = errorbar([0.6+i*0.1:1:7.6+i*0.1], years17_22(:,3,i), err, err);
+        er.Color = [0 0 0];                            
+        er.LineStyle = 'none';
+        hold on;
+        h(i) = scatter([0.6+i*0.1:1:7.6+i*0.1], years17_22(:,3,i), 75, markers(i), 'filled');
+    end;
+    hold on;
+end
+hold off;
+xlim([0 9]);
+ylim([0 4]);
+xticks(1:1:8);
+xticklabels(xlocations);
+grid on;
+ylabel('How often would you like to visit this place again [0-4]');
+legend(h, '2017', '2018', '2019', '2020', '2021', '2022', 'All years');
+title('Answers to question 3: How often would you like to visit this place again? - year 2017-2022');
+ax = gca; 
+ax.FontSize = 16;
 
 
 
