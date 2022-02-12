@@ -32,13 +32,13 @@ save('part_1_arithmetic_mean_Q_3.mat' , 'part_1_arithmetic_mean_Q_3');
 
 %Calculate 95% confidense intervals for the first three qs for all groups
 %included
-part_1_confidence_intervals_Q_1 = conf_int(groups.group_1A_1B_2A_2B, 1, 0.05);
+part_1_confidence_intervals_Q_1 = conf_int(groups.group_1A_1B_2A_2B, 1, 0.05, 4/12.4);
 save('part_1_confidence_intervals_Q_1.mat', 'part_1_confidence_intervals_Q_1');
 
-part_1_confidence_intervals_Q_2 = conf_int(groups.group_1A_1B_2A_2B, 2, 0.05);
+part_1_confidence_intervals_Q_2 = conf_int(groups.group_1A_1B_2A_2B, 2, 0.05, 4/12.4);
 save('part_1_confidence_intervals_Q_2.mat', 'part_1_confidence_intervals_Q_2');
 
-part_1_confidence_intervals_Q_3 = conf_int(groups.group_1A_1B_2A_2B, 3, 0.05);
+part_1_confidence_intervals_Q_3 = conf_int(groups.group_1A_1B_2A_2B, 3, 0.05, 4/12.4);
 save('part_1_confidence_intervals_Q_3.mat', 'part_1_confidence_intervals_Q_3');
 
 %% PROBLEM 2
@@ -127,7 +127,7 @@ end
 %confidense intervalls
 for i = 1:length(letters);
     my_field = strcat('part_1_confidence_intervals_Q_4', letters(i));
-    conf_ints_Q_4.(my_field) = conf_int(groups.group_1A_1B_2A_2B, i+3, 0.05);
+    conf_ints_Q_4.(my_field) = conf_int(groups.group_1A_1B_2A_2B, i+3, 0.05, 1);
     data = conf_ints_Q_4.(my_field);
     filename = strcat('part_1_confidence_intervals_Q_4', letters(i), '.mat');
     save(filename, 'data');
@@ -304,14 +304,14 @@ function E = eventfulness(e, u, ca, ch, v, m);
     E = ((sqrt(2)*(e-u))-(ca-ch)+(v-m))/(4+sqrt(8));
 end 
  
-function CI = conf_int(group, qs, p);
+function CI = conf_int(group, qs, p, scalefactor);
     %returns the confidence intervall for all locations
     
     %returns the mean for a group for all locations
     number_of_locations = length(group(:,qs,1));
     
     for i = 1:number_of_locations;
-        x = squeeze(group(i,qs,:)).*4./12.4;
+        x = squeeze(group(i,qs,:)).*scalefactor;%.*4./12.4;
         %standard deviation
         STD = std(x);
 
